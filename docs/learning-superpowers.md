@@ -75,3 +75,23 @@ The last one is the dependable route.
 ### Claude's suggestion (not something decided)
 
 Superpowers defers to project instructions over its own skills. A line in CLAUDE.md such as "any change that alters a module boundary or interface updates `docs/architecture.md` in the same branch" would be pulled into the spec's constraints and from there into the plan.
+
+## Is it useful to non-technical people building an app?
+
+Claude's assessment: partly. The first half is built for them. The second half works on their behalf but asks for approvals they can't meaningfully give.
+
+### Where it helps
+
+- **Working out what they want:** brainstorming is written to cover non-software projects too, uses plain language matched to the person's vocabulary, and bans process jargon. It asks about outcomes, not technology.
+- **Technical choices:** when someone talks only about outcomes, the skill tells the agent to pick the platform, language and libraries itself and state each choice in a line.
+- **Seeing before building:** it offers browser mockups and quick throwaway prototypes, which suit someone who can react to a screen but not to a description of one.
+- **Quality they can't supply themselves:** test-first development, per-task reviews and "verify before claiming done" give some of the discipline a non-technical person can't enforce.
+
+### Where it doesn't
+
+- **The plan review:** the plan is file paths, function signatures and test code, and the person is asked to confirm it captures what they want. A non-technical reader can only rubber-stamp it.
+- **The execution choice:** they are asked to choose between subagent-driven and inline execution, a trade-off that means little without engineering background.
+- **The surrounding tooling:** it assumes a git repo, branches, worktrees and a coding agent such as Claude Code running in a terminal or IDE. Nothing covers hosting, deployment, accounts or what to do when the running app breaks.
+- **Long-term upkeep:** nothing maintains a picture of the whole system, and a non-technical owner is the person least able to rebuild one from the code.
+
+It would get them a better-specified and better-tested first version than prompting alone. They would still need a technical person for the plan check, deployment and anything that goes wrong later.
