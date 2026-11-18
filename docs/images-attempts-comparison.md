@@ -87,11 +87,18 @@ and two SC2155. Attempts 2 and 4 have none. Every attempt leaves apt packages un
     intact.
   - The PR body still says amd64 was not verified, though it later was.
 
-## Attempt 2: simplest code, weakest Renovate config
+## Attempt 2: simplest code, one patched-on Renovate workaround
 
-- **Renovate.** The `uv` handling in `.github/renovate.json` was added after the reviews and never
-  reviewed: a regex manager plus two extra package rules. Between its two update PRs, `main` shows
-  the new `uv` version while still building the old one.
+- **Renovate.** The `uv` handling in `.github/renovate.json` is a regex manager plus two extra
+  package rules, 20 of the file's 51 lines. It is a patch made after the full run, not part of
+  the plan: the agent reported at the end that GHCR gives no release dates, so `uv` would never
+  update under the 3-day wait, and the human chose "read uv's version from GitHub releases" while
+  keeping `uv` copied from its image. That combination forces two update PRs, because a GitHub
+  release knows the version and not the image digest. Between them `main` shows the new version
+  while still building the old one. The agent disclosed this. It should work, but it has not been
+  exercised or reviewed. So this is a consequence of a product choice, not a defect of the method.
+  Attempt 4 never met the problem: it sets no release wait and installs every tool from its
+  release tarball.
 - **`start-dockerd`.** It truncates the log on each start and leaves the daemon running on
   timeout, so a retry starts a second one. Reviewers saw both, and neither was shown to the human
   (see "Attempt 2 against attempt 3" below). The script has one commit and was never touched
